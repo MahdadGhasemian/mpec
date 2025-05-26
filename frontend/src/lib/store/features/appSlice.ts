@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppState as AppStateIT } from "../types";
 
 export interface AppState extends AppStateIT {
-  item?: string | null;
+  stage: number;
 }
 
 const initialState: AppState = {
@@ -22,7 +22,7 @@ const initialState: AppState = {
     example: null,
     test: null,
   },
-  item: null,
+  stage: 1,
 };
 
 export const appSlice = createSlice({
@@ -85,14 +85,22 @@ export const appSlice = createSlice({
       }
     ),
 
+    setStage: create.reducer((state, action: PayloadAction<number>) => {
+      state.stage = action.payload;
+    }),
+
     resetState: create.reducer(() => initialState),
   }),
   selectors: {
+    getCoursePattern: (state) => state.coursePattern,
+    getExplanatoryChain: (state) => state.explanatoryChain,
+    getTestSolution: (state) => state.testSolution,
     getCourseContent: (state) => state.courseContent,
     getExampleContent: (state) => state.exampleContent,
     getTestQuestion: (state) => state.testQuestion,
     getLoading: (state) => state.loading,
     getErrors: (state) => state.errors,
+    getStage: (state) => state.stage,
   },
 });
 
@@ -105,13 +113,18 @@ export const {
   setTestSolution,
   setLoading,
   setError,
+  setStage,
   resetState,
 } = appSlice.actions;
 
 export const {
+  getCoursePattern,
+  getExplanatoryChain,
+  getTestSolution,
   getCourseContent,
   getExampleContent,
   getTestQuestion,
   getLoading,
   getErrors,
+  getStage,
 } = appSlice.selectors;
