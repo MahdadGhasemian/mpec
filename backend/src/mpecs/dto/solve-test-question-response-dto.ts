@@ -10,6 +10,7 @@ export class SolutionDto {
     required: true,
   })
   @IsString()
+  @Expose()
   answer: string;
 
   @ApiProperty({

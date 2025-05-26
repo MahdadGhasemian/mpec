@@ -4,6 +4,7 @@ import { useState } from "react";
 import ExplanatoryChainView from "@/components/ExplanatoryChainView";
 import api from "@/services/api";
 import { ExplanatoryChain, KnowledgeGraph } from "@/lib/store/types";
+import GraphView from "@/components/GraphView";
 
 export default function HomePage() {
   const [courseContent, setCourseContent] = useState("");
@@ -67,7 +68,12 @@ export default function HomePage() {
         >
           Extract Pattern
         </button>
-        {/* {graph && <GraphView graph={graph} />} */}
+        {coursePattern && (
+          <GraphView
+            entities={coursePattern.entities}
+            relations={coursePattern.relations}
+          />
+        )}
       </section>
 
       <section>
@@ -85,7 +91,9 @@ export default function HomePage() {
         >
           Apply to Example
         </button>
-        {/* {chain && <ExplanatoryChain steps={chain} />} */}
+        {explanatoryChain && (
+          <ExplanatoryChainView explanatoryChain={explanatoryChain} />
+        )}
       </section>
 
       <section>
