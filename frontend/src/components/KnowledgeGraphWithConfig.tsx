@@ -1,9 +1,4 @@
-import {
-  ExplanatoryChain,
-  Entity,
-  Relation,
-  GraphVisualizationConfig,
-} from "@/lib/store/types";
+import { ExplanatoryChain, GraphVisualizationConfig } from "@/lib/store/types";
 import ReactFlow, {
   Background,
   Controls,
@@ -14,23 +9,62 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 
+const Config: GraphVisualizationConfig = {
+  nodes: {
+    defaultSize: 120,
+    colors: {
+      problem: "#e3f2fd", // light blue
+      step: "#fff3e0", // light orange
+      conclusion: "#e8f5e9", // light green
+      axiom: "#fce4ec", // light pink
+      definition: "#ede7f6", // light purple
+      operation: "#f3e5f5", // light lavender
+    },
+    shapes: {
+      problem: "rectangle",
+      step: "rectangle",
+      conclusion: "rectangle",
+      axiom: "diamond",
+      definition: "circle",
+      operation: "diamond",
+    },
+  },
+  edges: {
+    defaultWidth: 2,
+    colors: {
+      decomposes_to: "#2196f3", // blue
+      applies: "#4caf50", // green
+      evaluates_to: "#ff9800", // orange
+    },
+    styles: {
+      decomposes_to: "solid",
+      applies: "dashed",
+      evaluates_to: "dotted",
+    },
+  },
+  layout: {
+    repulsion: 1000,
+    attraction: 0.05,
+    gravity: 0.1,
+  },
+};
+
 interface Props {
   chain: ExplanatoryChain;
-  config: GraphVisualizationConfig;
 }
 
-export default function KnowledgeGraph({ chain, config }: Props) {
+export default function KnowledgeGraphWithConfig({ chain }: Props) {
   const nodes: Node[] = chain.entities.map((entity, index) => {
-    const color = config.nodes.colors[entity.type];
-    const shape = config.nodes.shapes[entity.type];
+    const color = Config.nodes.colors[entity.type];
+    const shape = Config.nodes.shapes[entity.type];
 
     const baseStyle: React.CSSProperties = {
       background: color,
       padding: 10,
       borderRadius: shape === "circle" ? "50%" : shape === "rectangle" ? 8 : 0,
       border: "1px solid #aaa",
-      width: config.nodes.defaultSize,
-      height: config.nodes.defaultSize,
+      width: Config.nodes.defaultSize,
+      height: Config.nodes.defaultSize,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -51,12 +85,12 @@ export default function KnowledgeGraph({ chain, config }: Props) {
   });
 
   const edges: Edge[] = chain.relations.map((rel, idx) => {
-    const color = config.edges.colors[rel.type];
-    const styleType = config.edges.styles[rel.type];
+    const color = Config.edges.colors[rel.type];
+    const styleType = Config.edges.styles[rel.type];
 
     const lineStyle: React.CSSProperties = {
       stroke: color,
-      strokeWidth: config.edges.defaultWidth,
+      strokeWidth: Config.edges.defaultWidth,
       strokeDasharray:
         styleType === "dashed" ? "5,5" : styleType === "dotted" ? "2,2" : "0",
     };

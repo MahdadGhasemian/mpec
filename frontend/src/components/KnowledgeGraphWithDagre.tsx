@@ -55,7 +55,7 @@ interface Props {
   chain: ExplanatoryChain;
 }
 
-export default function KnowledgeGraph({ chain }: Props) {
+export default function KnowledgeGraphWithDagre({ chain }: Props) {
   const rawNodes: Node[] = chain.entities.map((entity) => ({
     id: entity.id,
     type: "default",
