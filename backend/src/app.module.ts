@@ -10,6 +10,7 @@ import * as Joi from 'joi';
       validationSchema: Joi.object({
         HTTP_PORT: Joi.number().required(),
         SWAGGER_SERVER_HOST: Joi.string().required(),
+        CORS_ORIGINS: Joi.string().required(),
       }),
     }),
     MpecsModule,

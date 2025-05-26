@@ -23,7 +23,12 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  app.enableCors();
+  app.enableCors({
+    origin: configService
+      .get<string>('CORS_ORIGINS', 'http://localhost:3001')
+      .split(','),
+    credentials: true,
+  });
   await app.listen(configService.get<number>('HTTP_PORT', 3000));
 }
 
