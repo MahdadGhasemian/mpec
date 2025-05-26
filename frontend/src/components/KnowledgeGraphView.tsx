@@ -12,13 +12,14 @@ interface Props {
   chain: ExplanatoryChain;
 }
 
-export default function KnowledgeGraphWith({ chain }: Props) {
+export default function KnowledgeGraphView({ chain }: Props) {
   const nodes: Node[] = chain.entities.map((entity, index) => ({
     id: entity.id,
     type: "default",
     data: { label: `${entity.label}: ${entity.name}` },
-    position: { x: 100 + index * 100, y: 100 + index * 50 },
+    position: { x: 100 + index * 180, y: 100 + index * 80 },
     style: {
+      width: 400,
       background:
         entity.type === "problem"
           ? "#e3f2fd"

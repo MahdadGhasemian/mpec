@@ -1,17 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import ExplanatoryChainView from "@/components/ExplanatoryChainView";
 import api from "@/services/api";
-import { ExplanatoryChain } from "@/lib/store/types";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCoursePattern,
   getExampleContent,
   getTestQuestion,
   setTestQuestion,
+  setTestSolution,
 } from "@/lib/store/features/appSlice";
-import KnowledgeGraph from "./KnowledgeGraphWith";
 
 export default function SolveTestQuestionTab() {
   // ** Global Store
@@ -19,11 +16,6 @@ export default function SolveTestQuestionTab() {
   const coursePattern = useSelector(getCoursePattern);
   const testQuestion = useSelector(getTestQuestion);
   const exampleContent = useSelector(getExampleContent);
-
-  const [solution, setSolution] = useState<{
-    answer: string;
-    explanatoryChain: ExplanatoryChain;
-  } | null>(null);
 
   const handleSolveQuestion = async () => {
     if (!coursePattern) return;
@@ -36,7 +28,7 @@ export default function SolveTestQuestionTab() {
 
     console.log(response.solution);
 
-    setSolution(response.solution);
+    dispatch(setTestSolution(response.solution));
   };
 
   return (
@@ -53,16 +45,15 @@ export default function SolveTestQuestionTab() {
       >
         Solve Question
       </button>
-      {solution && (
+      {/* {solution && (
         <div className="mt-4">
           <p>
             <strong>Answer:</strong> {solution.answer}
           </p>
-          <KnowledgeGraph chain={solution.explanatoryChain} />
-
+          <KnowledgeGraphView chain={solution.explanatoryChain} />
           <ExplanatoryChainView explanatoryChain={solution.explanatoryChain} />
         </div>
-      )}
+      )} */}
     </section>
   );
 }

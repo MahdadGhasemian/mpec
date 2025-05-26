@@ -1,11 +1,11 @@
 "use client";
 
 import api from "@/services/api";
-import GraphView from "@/components/GraphView";
+// import GraphView from "@/components/GraphView";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCourseContent,
-  getCoursePattern,
+  // getCoursePattern,
   setCourseContent,
   setCoursePattern,
   setStage,
@@ -15,7 +15,7 @@ export default function CoursePatternExtractionTab() {
   // ** Global Store
   const dispatch = useDispatch();
   const courseContent = useSelector(getCourseContent);
-  const coursePattern = useSelector(getCoursePattern);
+  // const coursePattern = useSelector(getCoursePattern);
 
   const handleExtractPattern = async () => {
     const response = await api.extract({ courseContent });
@@ -39,12 +39,12 @@ export default function CoursePatternExtractionTab() {
       >
         Extract Pattern
       </button>
-      {coursePattern && (
+      {/* {coursePattern && (
         <GraphView
           entities={coursePattern.entities}
           relations={coursePattern.relations}
         />
-      )}
+      )} */}
     </section>
   );
 }

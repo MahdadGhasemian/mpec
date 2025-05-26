@@ -1,12 +1,12 @@
 "use client";
 
-import ExplanatoryChainView from "@/components/ExplanatoryChainView";
+// import ExplanatoryChainView from "@/components/ExplanatoryChainView";
 import api from "@/services/api";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCoursePattern,
   getExampleContent,
-  getExplanatoryChain,
+  // getExplanatoryChain,
   setExampleContent,
   setExplanatoryChain,
   setStage,
@@ -17,7 +17,7 @@ export default function ApplyPatternToExampleTab() {
   const dispatch = useDispatch();
   const exampleContent = useSelector(getExampleContent);
   const coursePattern = useSelector(getCoursePattern);
-  const explanatoryChain = useSelector(getExplanatoryChain);
+  // const explanatoryChain = useSelector(getExplanatoryChain);
 
   const handleApplyExample = async () => {
     if (!coursePattern) return;
@@ -42,9 +42,9 @@ export default function ApplyPatternToExampleTab() {
       >
         Apply to Example
       </button>
-      {explanatoryChain && (
+      {/* {explanatoryChain && (
         <ExplanatoryChainView explanatoryChain={explanatoryChain} />
-      )}
+      )} */}
     </section>
   );
 }
