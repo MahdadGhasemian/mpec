@@ -1,26 +1,42 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AppState as AppStateIT } from "../types";
 
-export interface AppState {
-  id: string;
+export interface AppState extends AppStateIT {
+  item?: string | null;
 }
 
 const initialState: AppState = {
-  id: "",
+  courseContent: "",
+  exampleContent: "",
+  testQuestion: "",
+  coursePattern: null,
+  explanatoryChain: null,
+  testSolution: null,
+  loading: {
+    coursePattern: false,
+    example: false,
+    test: false,
+  },
+  errors: {
+    coursePattern: null,
+    example: null,
+    test: null,
+  },
 };
 
 export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: (create) => ({
-    setAppId: create.reducer((state, action: PayloadAction<AppState>) => {
-      Object.assign(state, action.payload);
+    setConrseContent: create.reducer((state, action: PayloadAction<string>) => {
+      state.courseContent = action.payload;
     }),
   }),
   selectors: {
-    getAppId: (state: AppState) => state.id,
+    getConrseContent: (state: AppState) => state.courseContent,
   },
 });
 
-export const { setAppId } = appSlice.actions;
+export const { setConrseContent } = appSlice.actions;
 
-export const { getAppId } = appSlice.selectors;
+export const { getConrseContent } = appSlice.selectors;
