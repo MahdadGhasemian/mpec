@@ -1,42 +1,32 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { MpecsService } from './mpecs.service';
-import { CreateMpecDto } from './dto/create-mpec.dto';
-import { UpdateMpecDto } from './dto/update-mpec.dto';
+import { ExtractCoursePatternDto } from './dto/extract-course-pattern-dto';
+import { ApplyPatternToExampleDto } from './dto/apply-pattern-to-example-dto';
+import { SolveTestQuestionDto } from './dto/solve-test-question-dto';
+import { Serialize } from 'src/libs';
+import { ExtractCoursePatternResponseDto } from './dto/extract-course-pattern-response-dto';
+import { ApplyPatternToExampleResponseDto } from './dto/apply-pattern-to-example-response-dto';
+import { SolveTestQuestionResponseDto } from './dto/solve-test-question-response-dto';
 
-@Controller('mpecs')
+@Controller('api')
 export class MpecsController {
   constructor(private readonly mpecsService: MpecsService) {}
 
-  @Post()
-  create(@Body() createMpecDto: CreateMpecDto) {
-    return this.mpecsService.create(createMpecDto);
+  @Post('extract-course-pattern')
+  @Serialize(ExtractCoursePatternResponseDto)
+  extract(@Body() extractCoursePatternDto: ExtractCoursePatternDto) {
+    return this.mpecsService.extractPattern(extractCoursePatternDto);
   }
 
-  @Get()
-  findAll() {
-    return this.mpecsService.findAll();
+  @Post('apply-pattern-to-example')
+  @Serialize(ApplyPatternToExampleResponseDto)
+  applyPattern(@Body() applyPatternToExampleDto: ApplyPatternToExampleDto) {
+    return this.mpecsService.applyPatternToExample(applyPatternToExampleDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.mpecsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMpecDto: UpdateMpecDto) {
-    return this.mpecsService.update(+id, updateMpecDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.mpecsService.remove(+id);
+  @Post('solve-test-question')
+  @Serialize(SolveTestQuestionResponseDto)
+  solve(@Body() solveTestQuestionDto: SolveTestQuestionDto) {
+    return this.mpecsService.solveTestQuestion(solveTestQuestionDto);
   }
 }

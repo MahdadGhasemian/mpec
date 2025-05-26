@@ -1,26 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMpecDto } from './dto/create-mpec.dto';
-import { UpdateMpecDto } from './dto/update-mpec.dto';
+import { ExtractCoursePatternDto } from './dto/extract-course-pattern-dto';
+import { ApplyPatternToExampleDto } from './dto/apply-pattern-to-example-dto';
+import { SolveTestQuestionDto } from './dto/solve-test-question-dto';
 
 @Injectable()
 export class MpecsService {
-  create(createMpecDto: CreateMpecDto) {
-    return 'This action adds a new mpec';
+  extractPattern(_extractCoursePatternDto: ExtractCoursePatternDto) {
+    return {
+      success: true,
+      coursePattern: 'Course Pattern',
+    };
   }
 
-  findAll() {
-    return `This action returns all mpecs`;
+  applyPatternToExample(_applyPatternToExampleDto: ApplyPatternToExampleDto) {
+    return {
+      success: true,
+      explanatoryChain: '',
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} mpec`;
-  }
-
-  update(id: number, updateMpecDto: UpdateMpecDto) {
-    return `This action updates a #${id} mpec`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} mpec`;
+  solveTestQuestion(_solveTestQuestionDto: SolveTestQuestionDto) {
+    return {
+      success: true,
+      solution: {
+        answer: '',
+        explanatoryChain: '',
+      },
+    };
   }
 }

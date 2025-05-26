@@ -1,11 +1,18 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { MpecsModule } from './mpecs/mpecs.module';
+import { ConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
 
 @Module({
-  imports: [MpecsModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema: Joi.object({
+        HTTP_PORT: Joi.number().required(),
+        SWAGGER_SERVER_HOST: Joi.string().required(),
+      }),
+    }),
+    MpecsModule,
+  ],
 })
 export class AppModule {}
