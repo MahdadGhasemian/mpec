@@ -2,30 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { ExtractCoursePatternDto } from './dto/extract-course-pattern-dto';
 import { ApplyPatternToExampleDto } from './dto/apply-pattern-to-example-dto';
 import { SolveTestQuestionDto } from './dto/solve-test-question-dto';
+import { CoursePatternExtractionService } from './course-pattern-extraction.service';
 
 @Injectable()
 export class MpecsService {
+  constructor(
+    private readonly coursePatternService: CoursePatternExtractionService,
+  ) {}
+
   extractPattern(_extractCoursePatternDto: ExtractCoursePatternDto) {
-    return {
-      success: true,
-      coursePattern: 'Course Pattern',
-    };
+    return this.coursePatternService.getAdditionPattern();
   }
 
   applyPatternToExample(_applyPatternToExampleDto: ApplyPatternToExampleDto) {
-    return {
-      success: true,
-      explanatoryChain: '',
-    };
+    return this.coursePatternService.getExampleAddition3Plus2();
   }
 
   solveTestQuestion(_solveTestQuestionDto: SolveTestQuestionDto) {
-    return {
-      success: true,
-      solution: {
-        answer: '',
-        explanatoryChain: '',
-      },
-    };
+    return this.coursePatternService.getTestQuestionAddition3Plus2();
   }
 }
