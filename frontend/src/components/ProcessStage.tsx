@@ -17,7 +17,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from "@/services/api";
-import { LoadingSpinner } from "./LoadingSpinner";
+import { toast } from "react-hot-toast";
 
 const stepData = [
   {
@@ -53,13 +53,12 @@ export default function ProcessStage() {
 
   useEffect(() => {
     if (processStage !== displayedTab) {
-      // fade out current content, then switch tab, then fade in
       setFadeState("fade-out");
 
       const timeout = setTimeout(() => {
         setDisplayedTab(processStage);
         setFadeState("fade-in");
-      }, 350); // match CSS animation duration
+      }, 200);
 
       return () => clearTimeout(timeout);
     }
@@ -67,35 +66,55 @@ export default function ProcessStage() {
 
   const handleNextStep = async () => {
     setLoading(true);
-    if (processStage === 1) {
-      const response = await api.extract({ courseContent });
 
-      dispatch(setCoursePattern(response.coursePattern));
-    } else if (processStage === 2) {
-      if (!coursePattern) return;
+    try {
+      if (processStage === 1) {
+        const response = await api.extract({ courseContent });
+        if (!response.coursePattern) {
+          throw new Error("Failed to extract course pattern");
+        }
+        dispatch(setCoursePattern(response.coursePattern));
+        toast.success("Course pattern extracted successfully!");
+      } else if (processStage === 2) {
+        if (!coursePattern) {
+          toast.error("Please extract course pattern first");
+          return;
+        }
 
-      const response = await api.applyPattern({
-        coursePattern,
-        exampleContent,
-      });
-      dispatch(setExplanatoryChain(response.explanatoryChain));
-    } else if (processStage === 3) {
-      if (!coursePattern) return;
+        const response = await api.applyPattern({
+          coursePattern,
+          exampleContent,
+        });
+        if (!response.explanatoryChain) {
+          throw new Error("Failed to apply pattern to example");
+        }
+        dispatch(setExplanatoryChain(response.explanatoryChain));
+        toast.success("Pattern applied successfully!");
+      } else if (processStage === 3) {
+        if (!coursePattern) {
+          toast.error("Please extract course pattern first");
+          return;
+        }
 
-      const response = await api.solve({
-        coursePattern,
-        exampleContent,
-        testQuestion,
-      });
-      dispatch(setTestSolution(response.solution));
-    }
+        const response = await api.solve({
+          coursePattern,
+          exampleContent,
+          testQuestion,
+        });
+        if (!response.solution) {
+          throw new Error("Failed to solve test question");
+        }
+        dispatch(setTestSolution(response.solution));
+        toast.success("Test question solved successfully!");
+      }
 
-    setLoading(false);
-
-    if (processStage < 3) {
-      setTimeout(() => {
+      if (processStage < 3) {
         dispatch(setProcessStage(processStage + 1));
-      }, 500);
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "An error occurred");
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -19,14 +19,14 @@ export default function HomePage() {
 
       <ProcessStage />
 
-      {processStage ===1 && coursePattern && (
+      {coursePattern && (
         <GraphView
           entities={coursePattern.entities}
           relations={coursePattern.relations}
         />
       )}
 
-      {processStage ===2 && explanatoryChain && (
+      {!testSolution && explanatoryChain && (
         <ExplanatoryChainView explanatoryChain={explanatoryChain} />
       )}
 

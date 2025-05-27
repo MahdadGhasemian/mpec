@@ -5,7 +5,7 @@ import { FC } from "react";
 
 const GraphView: FC<KnowledgeGraph> = (graph) => {
   return (
-    <div className="border p-4">
+    <div className="border rounded-lg p-4">
       <h2 className="font-semibold">Knowledge Graph</h2>
       <ul className="mt-2">
         {graph.relations.map((rel, i) => {
