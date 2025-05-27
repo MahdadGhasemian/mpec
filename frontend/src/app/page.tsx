@@ -4,12 +4,11 @@ import ExplanatoryChainView from "@/components/ExplanatoryChainView";
 import GraphView from "@/components/GraphView";
 import KnowledgeGraphView from "@/components/KnowledgeGraphView";
 import ProcessStage from "@/components/ProcessStage";
-import { getCoursePattern, getExplanatoryChain, getProcessStage, getTestSolution } from "@/lib/store/features/appSlice";
+import { getCoursePattern, getExplanatoryChain, getTestSolution } from "@/lib/store/features/appSlice";
 import { useSelector } from "react-redux";
 
 export default function HomePage() {
   // ** Global Store
-  const processStage = useSelector(getProcessStage);
   const coursePattern = useSelector(getCoursePattern);
   const explanatoryChain = useSelector(getExplanatoryChain);
   const testSolution = useSelector(getTestSolution);

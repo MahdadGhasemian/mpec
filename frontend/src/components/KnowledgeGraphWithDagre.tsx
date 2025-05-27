@@ -5,6 +5,7 @@ import ReactFlow, {
   Node,
   Edge,
   MarkerType,
+  Position,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import dagre from "dagre";
@@ -43,9 +44,9 @@ function getLayoutedElements(
       },
       // Required for smooth transitions:
       positionAbsolute: { x: x - nodeWidth / 2, y: y - nodeHeight / 2 },
-      targetPosition: isHorizontal ? "left" : "top",
-      sourcePosition: isHorizontal ? "right" : "bottom",
-    };
+      targetPosition: isHorizontal ? Position.Left : Position.Top,
+      sourcePosition: isHorizontal ? Position.Right : Position.Bottom,
+    } as Node;
   });
 
   return { nodes: layoutedNodes, edges };

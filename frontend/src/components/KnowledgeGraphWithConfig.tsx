@@ -35,11 +35,19 @@ const Config: GraphVisualizationConfig = {
       decomposes_to: "#2196f3", // blue
       applies: "#4caf50", // green
       evaluates_to: "#ff9800", // orange
+      grounds: "#9c27b0", // purple
+      enables: "#e91e63", // pink
+      requires: "#00bcd4", // cyan
+      produces: "#795548", // brown
     },
     styles: {
       decomposes_to: "solid",
       applies: "dashed",
       evaluates_to: "dotted",
+      grounds: "solid",
+      enables: "dashed",
+      requires: "dotted",
+      produces: "solid",
     },
   },
   layout: {
