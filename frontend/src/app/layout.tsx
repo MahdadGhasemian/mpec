@@ -27,11 +27,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased p-14`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        style={{
+          padding: "1rem",
+          paddingBlock: "1rem",
+          paddingInline: "0.5rem",
+        }}
       >
         <StoreProvider>
-          <div className="min-h-screen">
-            {children}
+          <div className="min-h-screen flex flex-col">
+            <div className="container mx-auto px-4">
+              {children}
+            </div>
             <ToastProvider />
           </div>
         </StoreProvider>

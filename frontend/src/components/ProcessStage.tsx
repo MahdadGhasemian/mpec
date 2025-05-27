@@ -129,15 +129,15 @@ export default function ProcessStage() {
   };
 
   return (
-    <div className="mx-auto">
+    <div className="w-full">
       {/* Tab Buttons */}
-      <div className="flex border-b border-gray-300">
+      <div className="flex flex-wrap border-b border-gray-300 gap-2">
         {stepData.map((step) => (
           <button
             key={step.id}
             onClick={() => dispatch(setProcessStage(step.id))}
             className={`
-              flex-1 text-center py-3 font-medium text-sm
+              flex-1 min-w-[120px] text-center py-2 font-medium text-sm
               ${
                 processStage === step.id
                   ? "border-b-4 border-primary text-primary"
