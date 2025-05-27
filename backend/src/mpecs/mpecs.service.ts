@@ -10,15 +10,24 @@ export class MpecsService {
     private readonly coursePatternService: CoursePatternExtractionService,
   ) {}
 
-  extractPattern(_extractCoursePatternDto: ExtractCoursePatternDto) {
+  async extractPattern(_extractCoursePatternDto: ExtractCoursePatternDto) {
+    // Note: Just for testing ui loading
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     return this.coursePatternService.getAdditionPattern();
   }
 
-  applyPatternToExample(_applyPatternToExampleDto: ApplyPatternToExampleDto) {
+  async applyPatternToExample(_applyPatternToExampleDto: ApplyPatternToExampleDto) {
+    // Note: Just for testing ui loading
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     return this.coursePatternService.getExampleAddition3Plus2();
   }
 
-  solveTestQuestion(_solveTestQuestionDto: SolveTestQuestionDto) {
+  async solveTestQuestion(_solveTestQuestionDto: SolveTestQuestionDto) {
+    // Note: Just for testing ui loading
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     return this.coursePatternService.getTestQuestionAddition3Plus2();
   }
 }

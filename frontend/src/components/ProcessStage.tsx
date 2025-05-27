@@ -17,6 +17,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from "@/services/api";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 const stepData = [
   {
@@ -45,7 +46,8 @@ export default function ProcessStage() {
   const exampleContent = useSelector(getExampleContent);
   const testQuestion = useSelector(getTestQuestion);
 
-  // for fade animation, track fade state
+  // ** State
+  const [loading, setLoading] = useState(false);
   const [fadeState, setFadeState] = useState<"fade-in" | "fade-out">("fade-in");
   const [displayedTab, setDisplayedTab] = useState(processStage);
 
@@ -64,11 +66,11 @@ export default function ProcessStage() {
   }, [processStage, displayedTab]);
 
   const handleNextStep = async () => {
+    setLoading(true);
     if (processStage === 1) {
       const response = await api.extract({ courseContent });
 
       dispatch(setCoursePattern(response.coursePattern));
-      dispatch(setProcessStage(2));
     } else if (processStage === 2) {
       if (!coursePattern) return;
 
@@ -77,7 +79,6 @@ export default function ProcessStage() {
         exampleContent,
       });
       dispatch(setExplanatoryChain(response.explanatoryChain));
-      dispatch(setProcessStage(3));
     } else if (processStage === 3) {
       if (!coursePattern) return;
 
@@ -87,6 +88,14 @@ export default function ProcessStage() {
         testQuestion,
       });
       dispatch(setTestSolution(response.solution));
+    }
+
+    setLoading(false);
+
+    if (processStage < 3) {
+      setTimeout(() => {
+        dispatch(setProcessStage(processStage + 1));
+      }, 500);
     }
   };
 
@@ -127,8 +136,6 @@ export default function ProcessStage() {
         ))}
       </div>
 
-      {/* <LoadingSpinner size="medium" message="Loading content..." visible /> */}
-
       {/* Tab Content */}
       <div
         className={`
@@ -140,50 +147,72 @@ export default function ProcessStage() {
           ${fadeState === "fade-in" ? "opacity-100" : "opacity-0"}
         `}
       >
-        <div className="flex flex-col h-full">
-          <div className="flex-1 overflow-y-auto">
-            {stepData.map(
-              (step) =>
-                displayedTab === step.id && (
-                  <div
-                    key={step.id}
-                    role="tabpanel"
-                    id={`tabpanel-${step.id}`}
-                    aria-labelledby={`tab-${step.id}`}
-                    className={`
-                      text-base
-                      dark:text-white
-                      text-gray-700
-                      space-y-4
-                    `}
-                  >
-                    <textarea
-                      className="w-full border p-2 mt-2 h-[200px] rounded-md"
-                      placeholder={step.placeholder}
-                      value={
-                        step.id === 1
-                          ? courseContent
-                          : step.id === 2
-                          ? exampleContent
-                          : step.id === 3
-                          ? testQuestion
-                          : ""
-                      }
-                      onChange={(e) => handleContentChange(e.target.value)}
-                    />
-                  </div>
-                )
-            )}
+        {loading ? (
+          <div className="flex flex-col h-full">
+            <div className="flex-1 space-y-4 p-4">
+              <div className="h-24 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+              <div className="h-24 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+            </div>
+            <div className="flex justify-center items-center p-4">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            </div>
           </div>
-          <div className="mt-4">
-            <button
-              className="w-full py-2 px-4 bg-primary text-white rounded-md hover:bg-secondary transition-colors"
-              onClick={handleNextStep}
-            >
-              Next Step
-            </button>
+        ) : (
+          <div className="flex flex-col h-full">
+            <div className="flex-1 overflow-y-auto">
+              {stepData.map(
+                (step) =>
+                  displayedTab === step.id && (
+                    <div
+                      key={step.id}
+                      role="tabpanel"
+                      id={`tabpanel-${step.id}`}
+                      aria-labelledby={`tab-${step.id}`}
+                      className={`
+                        text-base
+                        dark:text-white
+                        text-gray-700
+                        space-y-4
+                      `}
+                    >
+                      <textarea
+                        className="w-full border p-2 mt-2 h-[200px] rounded-md"
+                        placeholder={step.placeholder}
+                        value={
+                          step.id === 1
+                            ? courseContent
+                            : step.id === 2
+                            ? exampleContent
+                            : step.id === 3
+                            ? testQuestion
+                            : ""
+                        }
+                        onChange={(e) => handleContentChange(e.target.value)}
+                      />
+                    </div>
+                  )
+              )}
+            </div>
+            <div className="mt-4">
+              <button
+                className={`
+                  w-full py-2 px-4
+                  dark:bg-primary
+                  dark:text-white
+                  dark:hover:bg-secondary
+                  bg-primary text-white
+                  hover:bg-secondary
+                  rounded-md
+                  transition-colors
+                `}
+                onClick={handleNextStep}
+                disabled={loading}
+              >
+                {loading ? "Processing..." : "Next Step"}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

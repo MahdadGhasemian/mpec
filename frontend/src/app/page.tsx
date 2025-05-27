@@ -1,19 +1,34 @@
 "use client";
 
 import ExplanatoryChainView from "@/components/ExplanatoryChainView";
+import GraphView from "@/components/GraphView";
 import KnowledgeGraphView from "@/components/KnowledgeGraphView";
 import ProcessStage from "@/components/ProcessStage";
-import { getTestSolution } from "@/lib/store/features/appSlice";
+import { getCoursePattern, getExplanatoryChain, getProcessStage, getTestSolution } from "@/lib/store/features/appSlice";
 import { useSelector } from "react-redux";
 
 export default function HomePage() {
   // ** Global Store
+  const processStage = useSelector(getProcessStage);
+  const coursePattern = useSelector(getCoursePattern);
+  const explanatoryChain = useSelector(getExplanatoryChain);
   const testSolution = useSelector(getTestSolution);
 
   return (
     <div className="space-y-6">
 
       <ProcessStage />
+
+      {processStage ===1 && coursePattern && (
+        <GraphView
+          entities={coursePattern.entities}
+          relations={coursePattern.relations}
+        />
+      )}
+
+      {processStage ===2 && explanatoryChain && (
+        <ExplanatoryChainView explanatoryChain={explanatoryChain} />
+      )}
 
       {testSolution && (
         <div className="space-y-6">
