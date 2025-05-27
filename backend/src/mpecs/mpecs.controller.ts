@@ -3,7 +3,7 @@ import { MpecsService } from './mpecs.service';
 import { ExtractCoursePatternDto } from './dto/extract-course-pattern-dto';
 import { ApplyPatternToExampleDto } from './dto/apply-pattern-to-example-dto';
 import { SolveTestQuestionDto } from './dto/solve-test-question-dto';
-import { Serialize } from 'src/libs';
+import { Serialize } from '../libs';
 import { ExtractCoursePatternResponseDto } from './dto/extract-course-pattern-response-dto';
 import { ApplyPatternToExampleResponseDto } from './dto/apply-pattern-to-example-response-dto';
 import { SolveTestQuestionResponseDto } from './dto/solve-test-question-response-dto';

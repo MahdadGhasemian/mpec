@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class ExtractCoursePatternDto {
   @ApiProperty({
@@ -8,5 +8,6 @@ export class ExtractCoursePatternDto {
     required: true,
   })
   @IsString()
+  @IsNotEmpty()
   courseContent: string;
 }

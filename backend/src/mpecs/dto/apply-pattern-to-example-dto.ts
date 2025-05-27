@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsString, IsNotEmpty, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { KnowledgeGraphDto } from './graph-dto';
 
@@ -10,6 +10,8 @@ export class ApplyPatternToExampleDto {
     required: true,
   })
   @Type(() => KnowledgeGraphDto)
+  @ValidateNested()
+  @IsNotEmpty()
   coursePattern: KnowledgeGraphDto;
 
   @ApiProperty({
@@ -18,5 +20,6 @@ export class ApplyPatternToExampleDto {
     required: true,
   })
   @IsString()
+  @IsNotEmpty()
   exampleContent: string;
 }
